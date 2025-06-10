@@ -1,0 +1,192 @@
+/* Styles spécifiques pour la page des salariés */
+#companyName {
+    color: #3498db;
+}
+
+/* Styles pour le toggle switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin: 0 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2ecc71;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2ecc71;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 24px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Styles pour les boutons d'action */
+.btn-history {
+    background-color: #9b59b6;
+    color: white;
+}
+
+.btn-migrate {
+    background-color: #e67e22;
+    color: white;
+}
+
+.btn-reinitialiser {
+    background-color: #3498db;
+    color: white;
+}
+
+/* Styles pour le select */
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: white;
+}
+select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Ajustements pour la colonne des actions */
+.actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Styles pour les montants */
+td:nth-child(5),
+td:nth-child(6) {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-action {
+        width: 100%;
+        margin: 2px 0;
+    }
+
+    .switch {
+        margin: 10px 0;
+    }
+
+    .table-container {
+        margin: 0 -20px;
+        border-radius: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Styles pour le modal de migration */
+#migrateModal .modal-content {
+    max-width: 400px;
+}
+
+#migrateModal input[readonly] {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+#migrateModal select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+#migrateModal select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+#migrateModal input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+/* Style pour le bouton de migration */
+.btn-migrate {
+    background-color: #e67e22;
+    color: white;
+}
+
+.btn-migrate:hover {
+    background-color: #d35400;
+}
+
+/* Responsive Design pour le modal de migration */
+@media (max-width: 768px) {
+    #migrateModal .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+} 
