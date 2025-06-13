@@ -54,9 +54,9 @@
                     <i class="ri-send-plane-fill"></i>
                     Demander l'emprunt
                 </button>
-                <button type="button" onclick="window.location.href='{{ Route('emprunts.index') }}'" class="btn btn-back">
+                <button type="button" onclick="window.location.href='{{ Route('emprunts.logout') }}'" class="btn btn-back">
                     <i class="ri-arrow-left-line"></i> 
-                    Retour
+                    Quiter
                 </button>
             </form>
         </div>

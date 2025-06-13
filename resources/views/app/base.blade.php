@@ -126,55 +126,12 @@
                 
                 Swal.fire({
                     title: 'Êtes-vous sûr ?',
-                    text: "Voulez-vous vraiment reinitialiser le reste à emprunter de "+ message +" ?",
+                    text: "Voulez-vous vraiment réinitialiser le reste à emprunter de "+ message +" ?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Oui, supprimer',
-                    cancelButtonText: 'Annuler'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Soumettre le formulaire de suppression correspondant
-                        const form = document.createElement('form');
-                        form.action = url;
-                        form.method = 'POST';
-
-                        // CSRF token
-                        const csrfInput = document.createElement('input');
-                        csrfInput.type = 'hidden';
-                        csrfInput.name = '_token';
-                        csrfInput.value = '{{ csrf_token() }}';
-                        form.appendChild(csrfInput);
-
-                        // Method spoofing for PATCH
-                        const methodInput = document.createElement('input');
-                        methodInput.type = 'hidden';
-                        methodInput.name = '_method';
-                        methodInput.value = 'PATCH';
-                        form.appendChild(methodInput);
-
-                        document.body.appendChild(form);
-                        form.submit();
-                    }
-                });
-            });
-        });
-        
-        document.querySelectorAll('.btn-reinitialiser').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const url = this.getAttribute('data-url');
-                const message = this.getAttribute('data-message');
-                
-                Swal.fire({
-                    title: 'Êtes-vous sûr ?',
-                    text: "Voulez-vous vraiment reinitialiser le reste à emprunter de "+ message +" ?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Oui, supprimer',
+                    confirmButtonText: 'Oui, réinitialiser',
                     cancelButtonText: 'Annuler'
                 }).then((result) => {
                     if (result.isConfirmed) {

@@ -21,6 +21,10 @@ class EmpruntController extends Controller
         $employer = Employer::where('telephone', $request->telephone)->first();
 
         if ($employer) {
+            $request->session()->regenerate();
+            session([
+                'employerId' => $employer->id
+            ]);
             return redirect()->route('emprunts.redirection', ['id' => $employer->id]);
         }else {
             return back()->with('warning', 'Numéro de téléphone invalide');
@@ -51,14 +55,6 @@ class EmpruntController extends Controller
             $montant = $request->motant;
             return redirect()->route('emprunts.redirection', ['id' => $employer->id, 'montant' => $montant]);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -112,35 +108,9 @@ class EmpruntController extends Controller
         );
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Emprunt $emprunt)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Emprunt $emprunt)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Emprunt $emprunt)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Emprunt $emprunt)
-    {
-        //
+    public function logout(Request $request){
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('emprunts.index');
     }
 }

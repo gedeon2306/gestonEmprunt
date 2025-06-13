@@ -71,9 +71,11 @@
                                             data-url="{{ Route('employers.disable', $employer->id) }}" 
                                             @if ($employer->counter != 2)
                                                 data-message="Voulez-vous vraiment désactiver le compte de {{ $employer->nomComplet }} ?"
+                                                data-response="Oui désactiver"
                                                 checked
                                             @else
                                                 data-message="Voulez-vous vraiment réactiver le compte de {{ $employer->nomComplet }} ?";
+                                                data-response="Oui réactiver"
                                             @endif 
                                             onchange="disable(this)"
                                         >
@@ -237,6 +239,7 @@
         function disable(checkbox){
             const url = checkbox.getAttribute('data-url');
             const message = checkbox.getAttribute('data-message');
+            const response = checkbox.getAttribute('data-response');
             const isChecked = checkbox.checked;
             
             Swal.fire({
@@ -246,7 +249,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Oui, supprimer',
+                confirmButtonText: response,
                 cancelButtonText: 'Annuler'
             }).then((result) => {
                 if (result.isConfirmed) {
