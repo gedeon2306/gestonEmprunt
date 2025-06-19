@@ -14,6 +14,6 @@ class Employer extends Model
         'reste',
         'pin',
         'counter',
-        'entreprise_id',
+        'departement_id',
     ];
 }

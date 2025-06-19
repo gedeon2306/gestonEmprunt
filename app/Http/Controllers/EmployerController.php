@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employer;
 use App\Models\Emprunt;
-use App\Models\Entreprise;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 
 class EmployerController extends Controller
@@ -31,7 +31,7 @@ class EmployerController extends Controller
     public function store(Request $request)
     {
 
-        $entreprise = Entreprise::FindOrFail($request->entreprise_id);
+        $departement = Departement::FindOrFail($request->departement_id);
 
         $request->validate([
             'nomComplet' => 'required|string|max:100',
@@ -49,10 +49,14 @@ class EmployerController extends Controller
             'seuil' => $request->seuil,
             'reste' => $request->seuil,
             'pin' => $pin,
-            'entreprise_id' => $entreprise->id
+            'departement_id' => $departement->id
         ]);
 
-        return redirect()->route('entreprises.show', $entreprise->id)->with('success', 'Employé créé avec succès.');
+        $nb = Employer::where('departement_id', $departement->id)->count();
+        $departement->nbSalarier = $nb;
+        $departement->save();
+
+        return redirect()->route('departements.show', $departement->id)->with('success', 'Employé créé avec succès.');
     }
 
     /**
@@ -100,7 +104,13 @@ class EmployerController extends Controller
      */
     public function destroy(Employer $employer)
     {
+        $departementId = $employer->departement_id;
         $employer->delete();
+
+        $departement = Departement::FindOrFail($departementId);
+        $nb = Employer::where('departement_id', $departement->id)->count();
+        $departement->nbSalarier = $nb;
+        $departement->save();
         
         return back()->with('info', 'Employé supprimé avec succès.');
     }
@@ -116,9 +126,9 @@ class EmployerController extends Controller
 
     public function migreEmployer(Request $request, $id)
     {
-        $entreprise = Entreprise::FindOrFail($request->entreprise_id);
+        $departement = Departement::FindOrFail($request->departement_id);
         $employer = Employer::FindOrFail($id);
-        $employer->entreprise_id = $entreprise->id;
+        $employer->departement_id = $departement->id;
         $employer->save();
         
         return back()->with('info', 'Opération effectuée avec succès.');

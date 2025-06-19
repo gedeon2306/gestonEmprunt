@@ -8,8 +8,7 @@ class Entreprise extends Model
 {
     protected $fillable = [
         'nomEntreprise',
-        'adresse',
-        'telephone',
         'email',
+        'password',
     ];
 }

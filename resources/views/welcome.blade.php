@@ -12,7 +12,7 @@
     <h1 class="welcome-text">Bienvenue, vous êtes :</h1>
     
     <div class="cards-container">
-        <a href="{{ Route('entreprises.index') }}" class="card">
+        <a href="{{ Route('entreprises.authentification') }}" class="card">
             <i class="ri-building-2-line"></i>
             <h2>Entreprise</h2>
             <p>Accédez à votre espace entreprise pour gérer les demandes d'emprunt de vos salariés</p>

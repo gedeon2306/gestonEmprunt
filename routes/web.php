@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\EmpruntController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\DepartementController;
 use App\Http\Middleware\CheckTel;
 
 Route::get('/', function () {
@@ -11,7 +12,13 @@ Route::get('/', function () {
 })->name('accueil');
 
 // Gestion des entreprises
+Route::get('entreprises/authentification', [EntrepriseController::class, 'authForm'])->name('entreprises.authentification');
+Route::post('entreprises.login', [EntrepriseController::class, 'login'])->name('entreprises.login');
 Route::resource('entreprises', EntrepriseController::class);
+Route::get('entreprises.logout', [EntrepriseController::class, 'logout'])->name('entreprises.logout');
+
+// Gestion des départements
+Route::resource('departements', DepartementController::class);
 
 // Gestion des employers (Salariés)
 Route::resource('employers', EmployerController::class);

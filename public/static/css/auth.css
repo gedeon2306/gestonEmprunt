@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(45deg, #4481eb, #04befe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.auth-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.tabs {
+    display: flex;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 15px;
+    margin: 15px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: none;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab-btn i {
+    font-size: 1.2rem;
+}
+
+.tab-btn.active {
+    background: #4481eb;
+    color: white;
+}
+
+.tab-content {
+    padding: 20px;
+}
+
+.form {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.form.active {
+    display: block;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header i {
+    font-size: 3rem;
+    color: #4481eb;
+    margin-bottom: 15px;
+}
+
+.form-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.form-header p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 1.2rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #4481eb;
+    box-shadow: 0 0 0 2px rgba(68, 129, 235, 0.2);
+    outline: none;
+}
+
+.btn {
+    border: 1px #4481eb solid;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-submit {
+    background: #4481eb;
+    color: white;
+}
+
+.btn-back {
+    background: #ffffff;
+    color: #4481eb;
+}
+
+.btn-submit:hover {
+    background: #2d6ad9;
+    transform: translateY(-2px);
+}
+
+.btn-back:hover {
+    background: #2d6ad9;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.btn i {
+    transition: transform 0.3s ease;
+}
+
+.btn-submit:hover i {
+    transform: translateX(5px);
+}
+
+.btn-back:hover i {
+    transform: translateX(-5px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 20px;
+}
+
+.form-actions .btn {
+    flex-grow: 1; 
+    text-align: center;
+}
+
+.form-actions .btn:first-child {
+    margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-actions {
+        gap: 15px
+    }
+    .form-actions .btn {
+        padding: 10px 15px; /* Réduire le padding pour les rendre plus petits */
+        font-size: 0.9rem; /* Réduire la taille de la police */
+        gap: 5px; /* Réduire l'espace entre l'icône et le texte */
+        /* Si tu as utilisé flex-grow sur les .btn, tu pourrais le retirer ou l'ajuster ici */
+        flex-grow: 0; /* Ne pas les laisser grandir au-delà de leur contenu sur petit écran si tu as mis flex-grow: 1 */
+        white-space: nowrap; /* Empêche le texte du bouton de se couper si l'espace est très limité */
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 10px;
+    }
+
+    .auth-box {
+        border-radius: 15px;
+    }
+
+    .tabs {
+        margin: 10px;
+    }
+
+    .tab-btn {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    .form-header i {
+        font-size: 2.5rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .input-group input {
+        padding: 12px 12px 12px 40px;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
+} 

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('reste');
             $table->integer('pin');
             $table->integer('counter')->default(0);
-            $table->foreignId('entreprise_id')->constrained()->onDelete('cascade');
+            $table->foreignId('departement_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

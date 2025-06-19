@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Entreprise;
 use App\Models\Employer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EntrepriseController extends Controller
 {
@@ -33,14 +34,16 @@ class EntrepriseController extends Controller
     {
         $request->validate([
             'nomEntreprise' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'telephone' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:entreprises,email|max:255',
+            'password' => 'required|string|confirmed',
         ]);
+
+        // Hash le mot de passe
+        $request->merge(['password' => Hash::make($request->password)]);
 
         Entreprise::create($request->all());
 
-        return redirect()->route('entreprises.index')->with('success', 'Entreprise créée avec succès.');
+        return redirect()->route('departements.index')->with('success', 'Entreprise créée avec succès.');
     }
 
     /**
@@ -48,11 +51,7 @@ class EntrepriseController extends Controller
      */
     public function show($id)
     {
-        $employers = Employer::where('entreprise_id', $id)->get();
-        $entreprise = Entreprise::where('id', $id)->first();
-        $allEntreprises = Entreprise::all('id', 'nomEntreprise');
-
-        return view('gestionEmployer', compact('employers', 'entreprise', 'allEntreprises'));
+    
     }
 
     /**
@@ -89,5 +88,40 @@ class EntrepriseController extends Controller
         
         return redirect()->route('entreprises.index')->with('info', 'Entreprise supprimée avec succès.');
 
+    }
+
+    public function authForm()
+    {
+        return view('authForm');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $entreprise = Entreprise::where('email', $request->email)->first();
+
+        if ($entreprise && Hash::check($request->password, $entreprise->password)) {
+            $request->session()->regenerate();
+            session([
+                'entrepriseId' => $entreprise->id,
+                'entrepriseNom' => $entreprise->nomEntreprise,
+            ]);
+            return redirect()->route('departements.index')->with('success', 'Connexion réussie.');
+        }
+
+        return redirect()->back()->withErrors(['email' => 'Identifiants incorrects.']);
+    }
+
+    // Déconnexion
+    public function logout(Request $request)
+    {
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('accueil')->with('Success', 'Vous avez été déconnecté avec succès.');
     }
 }

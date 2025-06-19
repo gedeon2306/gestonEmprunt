@@ -8,14 +8,14 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('static/css/styles.css')}}">
-    <link rel="stylesheet" href="{{ asset('static/css/entreprise.css')}}">
+    <link rel="stylesheet" href="{{ asset('static/css/departement.css')}}">
     <link rel="stylesheet" href="{{ asset('static/css/historique.css')}}">
 @endsection
 
 @section('content')
     <div class="container">
         <div class="header">
-            <a href="{{ Route('entreprises.show', $employer->entreprise_id) }}" class="btn btn-back">
+            <a href="{{ Route('departements.show', $employer->departement_id) }}" class="btn btn-back">
                 <i class="ri-arrow-left-line"></i> Retour
             </a>
             <h1>Historique des Emprunts - <span id="employeeName">{{ $employer->nomComplet }}</span></h1>

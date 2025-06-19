@@ -8,17 +8,17 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('static/css/styles.css')}}">
-    <link rel="stylesheet" href="{{ asset('static/css/entreprise.css')}}">
+    <link rel="stylesheet" href="{{ asset('static/css/departement.css')}}">
     <link rel="stylesheet" href="{{ asset('static/css/salaries.css')}}">
 @endsection
 
 @section('content')
     <div class="container">
         <div class="header">
-            <a href="{{ Route('entreprises.index') }}" class="btn btn-back">
+            <a href="{{ Route('departements.index') }}" class="btn btn-back">
                 <i class="ri-arrow-left-line"></i> Retour
             </a>
-            <h1>Gestion des Salariés - <span id="companyName">{{ $entreprise->nomEntreprise }}</span></h1>
+            <h1>Gestion des Salariés - <span id="departementName">{{ $departement->nomDepartement }}</span></h1>
             <button class="btn btn-add" onclick="openModal('addModal')">
                 <i class="ri-user-add-line"></i> Ajouter un salarié
             </button>
@@ -50,7 +50,7 @@
                                 <td>{{ $employer->reste }} F</td>
                                 <td>{{ $employer->pin }}</td>
                                 <td class="actions">
-                                    <button class="btn-action btn-history" title="Historique des emprunts" onclick="window.location.href='{{ Route('employers.show', $employer->id)}}'">
+                                    <button class="btn-action btn-history" title="Historique des emprunts" onclick="window.location.href='{{ Route('employers.show', $employer->id) }}'">
                                         <i class="ri-bar-chart-horizontal-fill"></i>
                                     </button>
                                     <button class="btn-action btn-edit" title="Modifier" onclick="openEditModal('{{ Route('employers.update',$employer->id) }}', '{{ $employer->nomComplet }}', '{{ $employer->telephone }}', '{{ $employer->genre }}', '{{ $employer->seuil }}', '{{ $employer->pin }}')">
@@ -62,7 +62,7 @@
                                     <button class="btn-action btn-reinitialiser" title="Reinitialiser" data-url="{{ Route('employers.reset', $employer->id) }}" data-message="cet employer">
                                         <i class="ri-loop-right-line"></i>
                                     </button>
-                                    <button class="btn-action btn-migrate" title="Migrer le compte" onclick="openMigrateModal('{{ Route('employers.migreEmployer', $employer->id) }}', '{{ $employer->nomComplet }}', '{{ $employer->entreprise_id }}')">
+                                    <button class="btn-action btn-migrate" title="Migrer le compte" onclick="openMigrateModal('{{ Route('employers.migreEmployer', $employer->id) }}', '{{ $employer->nomComplet }}', '{{ $employer->departement_id }}')">
                                         <i class="ri-arrow-left-right-line"></i>
                                     </button>
                                     <label class="switch">
@@ -105,7 +105,7 @@
             </div>
             <form id="addEmployeeForm" action="{{ Route('employers.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="entreprise_id" value="{{ $entreprise->id }}">
+                <input type="hidden" name="departement_id" value="{{ $departement->id }}">
                 <div class="form-group">
                     <label for="employeeName">Nom complet</label>
                     <input type="text" name="nomComplet" id="employeeName" required>
@@ -195,10 +195,10 @@
                     <input type="text" id="migrateEmployeeName" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="targetCompany">Entreprise de destination</label>
-                    <select id="targetCompany" name="entreprise_id" required>
-                        @foreach ($allEntreprises as $ligne)
-                            <option value="{{ $ligne->id }}">{{ $ligne->nomEntreprise }}</option>
+                    <label for="targetDepartement">Département de destination</label>
+                    <select id="targetDepartement" name="departement_id" required>
+                        @foreach ($allDepartements as $ligne)
+                            <option value="{{ $ligne->id }}">{{ $ligne->nomDepartement }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -231,7 +231,7 @@
 
         function openMigrateModal(url, name, entrepriseId) {
             document.getElementById('migrateEmployeeName').value = name;
-            document.getElementById('targetCompany').value = entrepriseId;
+            document.getElementById('targetDepartement').value = entrepriseId;
             document.getElementById('migrateEmployeeForm').action = url;
             openModal('migrateModal');
         }
