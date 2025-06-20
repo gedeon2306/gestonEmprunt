@@ -2,6 +2,19 @@
 #emtrepriseName {
     color: #3498db;
 }
+
+.linkEntreprise {
+    text-decoration-color: #3498db;
+}
+
+.linkEntreprise:hover #emtrepriseName {
+    color: #2980b9;
+}
+
+.linkEntreprise:hover {
+    text-decoration-color: #2980b9;
+}
+
 .container {
     width: 100%;
     max-width: 1200px;

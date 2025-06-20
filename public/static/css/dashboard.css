@@ -1,0 +1,219 @@
+/* Styles pour le tableau de bord */
+.dashboard-container {
+    padding: 30px 0;
+}
+
+.dashboard-form {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.7s;
+}
+
+.dashboard-form h2 {
+    color: #3498db;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-stats {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 220px;
+    flex: 1 1 220px;
+    animation: popIn 0.7s;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(52,152,219,0.15);
+}
+
+.stat-card i {
+    font-size: 2.8rem;
+    color: #3498db;
+}
+
+.stat-content h3 {
+    margin: 0;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.stat-content p {
+    margin: 5px 0 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.dashboard-graphs {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+.graph-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(52,152,219,0.08);
+    padding: 25px 30px;
+    min-width: 320px;
+    flex: 1 1 320px;
+    animation: fadeInUp 0.7s;
+}
+
+.graph-card h3 {
+    color: #3498db;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.danger-zone {
+    background: #fff0f0;
+    border: 1.5px solid #e74c3c;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 40px;
+    text-align: center;
+    animation: shake 0.7s;
+}
+
+.danger-zone h2 {
+    color: #e74c3c;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+.danger-zone p {
+    color: #c0392b;
+    margin-bottom: 20px;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.password-row {
+    display: flex;
+    gap: 20px;
+}
+.password-row .form-group {
+    flex: 1 1 0;
+    margin-bottom: 0;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 1.2rem;
+    pointer-events: none;
+}
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+.input-group input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
+    outline: none;
+}
+
+@media (max-width: 900px) {
+    .dashboard-stats, .dashboard-graphs {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .stat-card, .graph-card {
+        min-width: unset;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-form, .graph-card, .danger-zone {
+        padding: 15px 8px;
+    }
+    .dashboard-form h2, .graph-card h3, .danger-zone h2 {
+        font-size: 1.1rem;
+    }
+    .stat-content p {
+        font-size: 1.3rem;
+    }
+    .password-row {
+        flex-direction: column;
+        gap: 0;
+    }
+    .password-row .form-group {
+        margin-bottom: 15px;
+    }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    80% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+} 

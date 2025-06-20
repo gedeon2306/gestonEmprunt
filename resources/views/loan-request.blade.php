@@ -18,7 +18,7 @@
             </div>
             <h1>Bienvenue <span id="userName">{{ $employer->nomComplet }}</span></h1>
             @if ($employer->counter == 1)
-                <p class="warning"><i class="ri-error-warning-fill"></i> Avertisemment sur le compte : Si vous entrez a noubeau un PIN incorrect le compte sera bloqué !</p>
+                <p class="warning"><i class="ri-error-warning-fill"></i> Avertisemment sur le compte : Si vous entrez a nouveau un PIN incorrect le compte sera bloqué !</p>
             @endif
 
             @if ($employer->counter == 2)

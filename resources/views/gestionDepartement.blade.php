@@ -17,7 +17,7 @@
             <a href="{{ Route('entreprises.logout') }}" class="btn btn-back">
                 <i class="ri-arrow-left-line"></i> Déconnexion
             </a>
-            <h1>Gestion des departements - <span id="emtrepriseName">{{ session('entrepriseNom') }}</span></h1>
+            <h1>Gestion des departements - <a href="{{ Route('entreprises.index') }}" class="linkEntreprise" title="Gestion entreprise {{ session('entrepriseNom') }} "><span id="emtrepriseName">{{ session('entrepriseNom') }}</span></a> </h1>
             <button class="btn btn-add" onclick="openModal('addModal')">
                 <i class="ri-add-line"></i> Ajouter
             </button>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Entreprise;
 use App\Models\Employer;
+use App\Models\Departement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,8 +16,17 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        $entreprises = Entreprise::all();
-        return view('gestionEntreprise', compact('entreprises'));
+        $entreprise = Entreprise::where('id', session('entrepriseId'))->first();
+        $departements = Departement::where('entreprise_id', session('entrepriseId'))->get();
+        $employers = collect();
+
+        foreach ($departements as $departement) {
+            $employers = $employers->merge(Employer::where('departement_id', $departement->id)->get());
+        } 
+
+        
+
+        return view('dashboard', compact('entreprise', 'departements', 'employers'));
     }
 
     /**
@@ -41,7 +51,13 @@ class EntrepriseController extends Controller
         // Hash le mot de passe
         $request->merge(['password' => Hash::make($request->password)]);
 
-        Entreprise::create($request->all());
+        $entreprise = Entreprise::create($request->all());
+
+        $request->session()->regenerate();
+        session([
+            'entrepriseId' => $entreprise->id,
+            'entrepriseNom' => $entreprise->nomEntreprise,
+        ]);
 
         return redirect()->route('departements.index')->with('success', 'Entreprise créée avec succès.');
     }
