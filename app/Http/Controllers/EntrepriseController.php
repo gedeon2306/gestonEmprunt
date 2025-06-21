@@ -53,6 +53,7 @@ class EntrepriseController extends Controller
 
         $entreprise = Entreprise::create($request->all());
 
+        $request->session()->invalidate();
         $request->session()->regenerate();
         session([
             'entrepriseId' => $entreprise->id,
@@ -83,26 +84,69 @@ class EntrepriseController extends Controller
      */
     public function update(Request $request, Entreprise $entreprise)
     {
-        $request->validate([
-            'nomEntreprise' => 'required|string|max:255',
-            'adresse' => 'required|string|max:255',
-            'telephone' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
-        ]);
+        if ($entreprise->id != session('entrepriseId')) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+        
+        if (!$request->newPassword) {
+            $request->validate([
+                'nomEntreprise' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+            ]);
 
-        $entreprise->update($request->all());
+            if ($entreprise && Hash::check($request->password, $entreprise->password)) {
+                $entreprise->update([
+                    'nomEntreprise' => $request->nomEntreprise,
+                    'email' => $request->email,
+                ]);
 
-        return redirect()->route('entreprises.index')->with('success', 'Entreprise mise à jour avec succès.');
+                session()->put('entrepriseNom', $request->nomEntreprise);
+
+                return redirect()->back()->with('success', 'Informations de l\'entreprise mises à jour !');
+            }
+            
+            return redirect()->back()->with('error', 'Mot de passe incorrect');
+
+        }else{
+            $request->validate([
+                'nomEntreprise' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'newPassword' => 'required|string|confirmed',
+            ]);
+            
+            if (!Hash::check($request->newPassword, $entreprise->password)) {
+
+                $request->merge(['newPassword' => Hash::make($request->newPassword)]);
+
+                $entreprise->update([
+                    'nomEntreprise' => $request->nomEntreprise,
+                    'email' => $request->email,
+                    'password' => $request->newPassword,
+                ]);
+
+                $request->session()->invalidate();
+                
+                return redirect()->route('entreprises.authentification')->with('info', 'Entreprise mise à jour avec succès, Reconnectez-vous !');
+            }
+
+            return redirect()->back()->with('error', 'Le mot de passe actuel et le nouveau son identique.');
+        }
     }
     
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Entreprise $entreprise)
+    public function destroy(Request $request, Entreprise $entreprise)
     {
+        if ($entreprise->id != session('entrepriseId')) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $entreprise->delete();
+
+        $request->session()->invalidate();
         
-        return redirect()->route('entreprises.index')->with('info', 'Entreprise supprimée avec succès.');
+        return redirect()->route('entreprises.authentification')->with('info', 'Entreprise supprimée avec succès.');
 
     }
 
@@ -121,23 +165,24 @@ class EntrepriseController extends Controller
         $entreprise = Entreprise::where('email', $request->email)->first();
 
         if ($entreprise && Hash::check($request->password, $entreprise->password)) {
+
             $request->session()->regenerate();
             session([
                 'entrepriseId' => $entreprise->id,
                 'entrepriseNom' => $entreprise->nomEntreprise,
             ]);
+
             return redirect()->route('departements.index')->with('success', 'Connexion réussie.');
         }
 
-        return redirect()->back()->withErrors(['email' => 'Identifiants incorrects.']);
+        return redirect()->back()->with('error','Identifiants incorrects.');
     }
 
     // Déconnexion
     public function logout(Request $request)
     {
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        return redirect()->route('accueil')->with('Success', 'Vous avez été déconnecté avec succès.');
+        return redirect()->route('entreprises.authentification')->with('success', 'Vous avez été déconnecté avec succès.');
     }
 }

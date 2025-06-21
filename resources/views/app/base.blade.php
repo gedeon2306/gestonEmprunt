@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
     @yield('favicons')
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="{{ asset('static/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('static/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('static/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
     @yield('styles')

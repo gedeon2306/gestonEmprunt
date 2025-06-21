@@ -33,6 +33,12 @@ class EmployerController extends Controller
 
         $departement = Departement::FindOrFail($request->departement_id);
 
+        $query = Departement::where('entreprise_id', session('entrepriseId'))->where('id', $request->departement_id)->exists();
+
+        if (!$query) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $request->validate([
             'nomComplet' => 'required|string|max:100',
             'telephone' => 'required|string|max:20|unique:employers,telephone',
@@ -64,6 +70,19 @@ class EmployerController extends Controller
      */
     public function show(Employer $employer)
     {
+        // $departements = Departement::where('entreprise_id', session(entrepriseId))->get;
+        // $idsDepartements = $departements->pluck('id')->toArray();
+        // $employerAppartient = in_array($employer->departement_id, $idsDepartements);
+
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
+
         $emprunts = Emprunt::where('employer_id', $employer->id)->get();
         $totalEmprunt = 0;
         foreach ($emprunts as $emprunt){
@@ -86,6 +105,15 @@ class EmployerController extends Controller
      */
     public function update(Request $request, Employer $employer)
     {
+
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $request->validate([
             'nomComplet' => 'required|string|max:100',
             'telephone' => 'required|string|max:20|unique:employers,telephone' . $employer->id,
@@ -93,7 +121,7 @@ class EmployerController extends Controller
             'seuil' => 'required|integer',
             'pin' => 'required|integer',
         ]);
-        // dd($request->all());
+        
         $employer->update($request->all());
 
         return back()->with('success', 'Employé mis à jour avec succès.');
@@ -104,6 +132,14 @@ class EmployerController extends Controller
      */
     public function destroy(Employer $employer)
     {
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $departementId = $employer->departement_id;
         $employer->delete();
 
@@ -118,6 +154,15 @@ class EmployerController extends Controller
     public function reset($id)
     {
         $employer = Employer::FindOrFail($id);
+
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $employer->reste = $employer->seuil;
         $employer->save();
         
@@ -128,6 +173,15 @@ class EmployerController extends Controller
     {
         $departement = Departement::FindOrFail($request->departement_id);
         $employer = Employer::FindOrFail($id);
+
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $employer->departement_id = $departement->id;
         $employer->save();
         
@@ -137,6 +191,15 @@ class EmployerController extends Controller
     public function disable(Request $request, $id)
     {
         $employer = Employer::FindOrFail($id);
+
+        $employerAppartient = Departement::where('id', $employer->departement_id)
+                                            ->where('entreprise_id', session('entrepriseId'))
+                                            ->exists();
+
+        if (!$employerAppartient) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         if ($employer->counter != 2) {
             $employer->counter = 2;
             $employer->save();

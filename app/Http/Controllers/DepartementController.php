@@ -51,9 +51,16 @@ class DepartementController extends Controller
      */
     public function show($id)
     {
+        $query = Departement::where('entreprise_id', session('entrepriseId'))->where('id', $id)->exists();
+
+        if (!$query) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $employers = Employer::where('departement_id', $id)->get();
         $departement = Departement::where('id', $id)->first();
-        $allDepartements = Departement::all('id', 'nomDepartement');
+        $allDepartements = Departement::where('entreprise_id', session('entrepriseId'))->get();
+        // $allDepartements = Departement::all('id', 'nomDepartement');
 
         return view('gestionEmployer', compact('employers', 'departement', 'allDepartements'));
     }
@@ -71,6 +78,12 @@ class DepartementController extends Controller
      */
     public function update(Request $request, Departement $departement)
     {
+        $query = Departement::where('entreprise_id', session('entrepriseId'))->where('id', $departement->id)->exists();
+
+        if (!$query) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $request->validate([
             'nomDepartement' => 'required|string|max:100',
             'chefDepartement' => 'required|string|max:100',
@@ -86,6 +99,12 @@ class DepartementController extends Controller
      */
     public function destroy(Departement $departement)
     {
+        $query = Departement::where('entreprise_id', session('entrepriseId'))->where('id', $departement->id)->exists();
+
+        if (!$query) {
+            return redirect()->back()->with('error', 'Requete invalide.');
+        }
+
         $departement->delete();
         
         return redirect()->route('departements.index')->with('info', 'Département supprimé avec succès.');

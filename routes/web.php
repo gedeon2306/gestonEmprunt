@@ -13,9 +13,9 @@ Route::get('/', function () {
 
 // Gestion des entreprises
 Route::get('entreprises/authentification', [EntrepriseController::class, 'authForm'])->name('entreprises.authentification');
-Route::post('entreprises.login', [EntrepriseController::class, 'login'])->name('entreprises.login');
+Route::post('entreprises/login', [EntrepriseController::class, 'login'])->name('entreprises.login');
 Route::resource('entreprises', EntrepriseController::class);
-Route::get('entreprises.logout', [EntrepriseController::class, 'logout'])->name('entreprises.logout');
+Route::get('logout', [EntrepriseController::class, 'logout'])->name('entreprises.logout');
 
 // Gestion des départements
 Route::resource('departements', DepartementController::class);

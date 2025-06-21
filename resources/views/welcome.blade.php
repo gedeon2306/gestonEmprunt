@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Système d'Emprunt</title>
     <link rel="shortcut icon" href="{{asset('static/images/gestionEmprunt.png')}}" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="{{ asset('static/remixicon/remixicon.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('static/css/styles.css') }}">
 </head>
 <body>

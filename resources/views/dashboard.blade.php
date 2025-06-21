@@ -22,7 +22,9 @@
         </div>
 
         <!-- Formulaire d'informations sur l'entreprise -->
-        <form class="dashboard-form">
+        <form class="dashboard-form" action="{{ Route('entreprises.update', session('entrepriseId')) }}" method="POST">
+            @csrf
+            @method('PUT')
             <h2><i class="ri-building-2-line"></i> Informations sur l'entreprise</h2>
             <div class="form-group">
                 <div class="input-group">
@@ -38,20 +40,20 @@
             <div class="form-group">
                 <div class="input-group">
                     <i class="ri-lock-password-line"></i>
-                    <input type="password" id="oldPassword" placeholder="Ancien mot de passe" autocomplete="current-password">
+                    <input type="password" id="oldPassword" name="password" placeholder="Mot de passe actuel" autocomplete="current-password" required>
                 </div>
             </div>
             <div class="password-row">
                 <div class="form-group">
                     <div class="input-group">
                         <i class="ri-lock-line"></i>
-                        <input type="password" id="newPassword" placeholder="Nouveau mot de passe" autocomplete="new-password">
+                        <input type="password" id="newPassword" name="newPassword"  placeholder="Nouveau mot de passe" autocomplete="new-password">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <i class="ri-lock-line"></i>
-                        <input type="password" id="confirmPassword" placeholder="Confirmer le nouveau mot de passe" autocomplete="new-password">
+                        <input type="password" id="confirmPassword" name="newPassword_confirmation" placeholder="Confirmer le nouveau mot de passe" autocomplete="new-password">
                     </div>
                 </div>
             </div>
@@ -180,12 +182,36 @@
         // Gestion du formulaire (exemple, à adapter selon backend)
         document.querySelector('.dashboard-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            // Animation de validation
-            this.classList.add('validated');
+
+            const password = this.querySelectorAll('input[type="password"]')[1].value;
+            const confirmPassword = this.querySelectorAll('input[type="password"]')[2].value;
+
+            if (password !== confirmPassword) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Les deux mot de passe ne correspondent pas !"
+                });
+                return
+            }
+
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="ri-loader-4-line"></i> Enregistrement...';
+            btn.disabled = true;
+
             setTimeout(() => {
-                this.classList.remove('validated');
-                alert('Informations enregistrées !');
-            }, 800);
+                e.target.submit();
+            }, 1500);
         });
 
     </script>
