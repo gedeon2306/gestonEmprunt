@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Entreprise;
 use App\Models\Employer;
 use App\Models\Departement;
+use App\Models\Emprunt;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,13 +21,30 @@ class EntrepriseController extends Controller
         $departements = Departement::where('entreprise_id', session('entrepriseId'))->get();
         $employers = collect();
 
+        // Données pour les graphiques dynamiques
+        $labels = [];
+        $loanData = [];
+        $employeeData = [];
+
+        foreach ($departements as $departement) {
+            $labels[] = $departement->nomDepartement;
+            // Nombre de salariés
+            $nbEmployes = Employer::where('departement_id', $departement->id)->count();
+            $employeeData[] = $nbEmployes;
+            // Montant total emprunté par les salariés de ce département
+            $employerIds = Employer::where('departement_id', $departement->id)->pluck('id');
+            $totalEmprunt = 0;
+            if ($employerIds->count() > 0) {
+                $totalEmprunt = Emprunt::whereIn('employer_id', $employerIds)->sum('motant');
+            }
+            $loanData[] = $totalEmprunt;
+        }
+
         foreach ($departements as $departement) {
             $employers = $employers->merge(Employer::where('departement_id', $departement->id)->get());
-        } 
+        }
 
-        
-
-        return view('dashboard', compact('entreprise', 'departements', 'employers'));
+        return view('dashboard', compact('entreprise', 'departements', 'employers', 'labels', 'loanData', 'employeeData'));
     }
 
     /**

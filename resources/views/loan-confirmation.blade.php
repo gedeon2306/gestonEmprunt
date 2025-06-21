@@ -62,4 +62,39 @@
             </form>
         </div>
     </div>
+    <script>
+        document.getElementById('confirmationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const password = this.querySelectorAll('input[type="password"]')[0].value;
+
+            if (!password) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Entrez votre un pin valide !"
+                });
+                return
+            }
+
+            // Animation du bouton
+            const btn = this.querySelector('.btn-confirm');
+            btn.innerHTML = '<i class="ri-loader-4-line"></i> Confirmation...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                e.target.submit();
+            }, 1500);
+        });
+    </script>
 @endsection

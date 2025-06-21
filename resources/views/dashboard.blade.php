@@ -117,26 +117,26 @@
             });
         });
 
-        // Mock data pour les graphiques
+        // Données dynamiques pour les graphiques
         const loanChartData = {
-            labels: ['Production', 'RH', 'Finance', 'IT', 'Ventes'],
+            labels: @json($labels),
             datasets: [{
                 label: 'Montant total emprunté (F)',
-                data: [12000, 8000, 15000, 5000, 7000],
+                data: @json($loanData),
                 backgroundColor: [
-                    '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#9b59b6'
+                    '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#9b59b6', '#1abc9c', '#e84393', '#636e72', '#fdcb6e', '#00b894'
                 ],
                 borderRadius: 8
             }]
         };
 
         const employeeChartData = {
-            labels: ['Production', 'RH', 'Finance', 'IT', 'Ventes'],
+            labels: @json($labels),
             datasets: [{
                 label: 'Nombre de salariés',
-                data: [40, 20, 25, 15, 20],
+                data: @json($employeeData),
                 backgroundColor: [
-                    '#2ecc71', '#3498db', '#f1c40f', '#e67e22', '#9b59b6'
+                    '#2ecc71', '#3498db', '#f1c40f', '#e67e22', '#9b59b6', '#1abc9c', '#e84393', '#636e72', '#fdcb6e', '#00b894'
                 ],
                 borderRadius: 8
             }]

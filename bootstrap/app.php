@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'CheckTel' => \App\Http\Middleware\CheckTel::class,
+            'CheckAuth' => \App\Http\Middleware\CheckAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

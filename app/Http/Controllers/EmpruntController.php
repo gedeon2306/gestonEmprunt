@@ -21,10 +21,7 @@ class EmpruntController extends Controller
         $employer = Employer::where('telephone', $request->telephone)->first();
 
         if ($employer) {
-            $request->session()->regenerate();
-            session([
-                'employerId' => $employer->id
-            ]);
+            session()->put('employerId', $employer->id);
             return redirect()->route('emprunts.redirection', ['id' => $employer->id]);
         }else {
             return back()->with('warning', 'Numéro de téléphone invalide');
@@ -109,8 +106,7 @@ class EmpruntController extends Controller
     }
 
     public function logout(Request $request){
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        session()->forget('employerId');
         return redirect()->route('emprunts.index');
     }
 }

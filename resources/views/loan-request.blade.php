@@ -45,7 +45,7 @@
 
             <form id="loanForm" class="loan-form" action="{{ Route('emprunts.confirm')}}" method="POST">
                 @csrf
-                <input type="number" name="employer_id" value="{{ $employer->id }}" hidden>
+                <input type="number" name="employer_id" value="{{ $employer->id }}" hidden required>
                 <div class="input-group">
                     <i class="ri-money-euro-circle-line"></i>
                     <input type="number" id="loanAmount" name="motant" placeholder="Montant souhaité" required>
@@ -61,4 +61,39 @@
             </form>
         </div>
     </div>
+    <script>
+        document.getElementById('loanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const number = this.querySelectorAll('input[type="number"]')[1].value;
+
+            if (!number) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Entrez un montant !"
+                });
+                return
+            }
+
+            // Animation du bouton
+            const btn = this.querySelector('.btn-request');
+            btn.innerHTML = '<i class="ri-loader-4-line"></i> En cours...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                e.target.submit();
+            }, 1500);
+        });
+    </script>
 @endsection

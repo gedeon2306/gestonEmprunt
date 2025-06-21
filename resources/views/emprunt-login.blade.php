@@ -36,4 +36,39 @@
             </form>
         </div>
     </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const tel = this.querySelectorAll('input[type="tel"]')[0].value;
+
+            if (!tel) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "error",
+                    title: "Entrez votre numéro de téléphone !"
+                });
+                return
+            }
+
+            // Animation du bouton
+            const btn = this.querySelector('.btn-verify');
+            btn.innerHTML = '<i class="ri-loader-4-line"></i> Vérification...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                e.target.submit();
+            }, 1500);
+        });
+    </script>
 @endsection
