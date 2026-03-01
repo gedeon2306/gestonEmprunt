@@ -30,12 +30,12 @@ Route::middleware(['CheckAuth'])->group(function () {
     Route::patch('employers/{id}/reset', [EmployerController::class, 'reset'])->name('employers.reset');
     Route::patch('employers/{id}/migreEmployer', [EmployerController::class, 'migreEmployer'])->name('employers.migreEmployer');
     Route::patch('employers/{id}/disable', [EmployerController::class, 'disable'])->name('employers.disable');
-
-    // Gestion des emprunts
-    Route::get('emprunts', [EmpruntController::class, 'index'])->name('emprunts.index');
-    Route::get('emprunts/logout', [EmpruntController::class, 'logout'])->name('emprunts.logout');
-    Route::post('emprunts/verif', [EmpruntController::class, 'verif'])->name('emprunts.verif');
 });
+
+// Gestion des emprunts
+Route::get('emprunts', [EmpruntController::class, 'index'])->name('emprunts.index');
+Route::get('emprunts/logout', [EmpruntController::class, 'logout'])->name('emprunts.logout');
+Route::post('emprunts/verif', [EmpruntController::class, 'verif'])->name('emprunts.verif');
 
 Route::middleware(['CheckTel'])->group(function () {
     Route::post('emprunts', [EmpruntController::class, 'store'])->name('emprunts.store');

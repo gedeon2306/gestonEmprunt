@@ -1,61 +1,208 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gestion d'Emprunt - Système de gestion des avances salariales
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application web Laravel permettant aux entreprises de gérer les demandes d'emprunt (avances sur salaire) de leurs salariés. Le système offre deux espaces distincts : un espace **Entreprise** pour l'administration et un espace **Salarié** pour les demandes d'emprunt.
 
-## About Laravel
+## Table des matières
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Prérequis](#prérequis)
+- [Installation](#installation)
+- [Fonctionnalités](#fonctionnalités)
+- [Structure du projet](#structure-du-projet)
+- [Technologies utilisées](#technologies-utilisées)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Prérequis
 
-## Learning Laravel
+- **PHP** >= 8.2
+- **Composer**
+- **Laravel** 12.x
+- Base de données (MySQL, PostgreSQL, SQLite)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# Cloner le projet
+git clone <url-du-repo>
+cd gestionEmprunt
 
-## Laravel Sponsors
+# Installer les dépendances
+composer install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Configurer l'environnement
+cp .env.example .env
+php artisan key:generate
 
-### Premium Partners
+# Configurer la base de données dans .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_DATABASE=gestion_emprunt
+# DB_USERNAME=root
+# DB_PASSWORD=
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Exécuter les migrations
+php artisan migrate
 
-## Contributing
+# Lancer le serveur
+php artisan serve
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+L'application sera accessible à l'adresse : `http://localhost:8000`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Fonctionnalités
 
-## Security Vulnerabilities
+### Page d'accueil
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Choix du type d'utilisateur** : L'utilisateur peut accéder soit à l'espace **Entreprise** (gestion administrative), soit à l'espace **Salarié** (demandes d'emprunt).
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Espace Entreprise
+
+#### Authentification
+
+- **Inscription** : Création d'un compte entreprise avec nom, email et mot de passe (hashé).
+- **Connexion** : Authentification par email et mot de passe.
+- **Déconnexion** : Fermeture de session et redirection vers la page d'authentification.
+
+#### Gestion du profil entreprise
+
+- **Modification des informations** : Mise à jour du nom et de l'email (avec vérification du mot de passe actuel).
+- **Changement de mot de passe** : Modification du mot de passe avec confirmation (déconnexion automatique après changement).
+- **Suppression du compte** : Suppression définitive de l'entreprise et de toutes ses données associées.
+
+#### Tableau de bord (Dashboard)
+
+- **Statistiques** : Nombre total de départements et de salariés.
+- **Graphiques dynamiques** :
+  - Graphique en barres : Montant total emprunté par département.
+  - Graphique en donut : Répartition des salariés par département.
+- **Données en temps réel** : Les graphiques sont alimentés dynamiquement selon les données de l'entreprise.
+
+---
+
+### Gestion des départements
+
+- **Liste des départements** : Affichage de tous les départements de l'entreprise.
+- **Création** : Ajout d'un département avec nom et chef de département.
+- **Modification** : Mise à jour du nom et du chef de département.
+- **Suppression** : Suppression d'un département (avec cascade sur les salariés).
+- **Détail** : Visualisation des salariés d'un département avec accès à la gestion des employés.
+
+---
+
+### Gestion des employés (Salariés)
+
+- **Création** : Ajout d'un salarié avec :
+  - Nom complet
+  - Téléphone (unique)
+  - Genre (M/F/A)
+  - Seuil d'emprunt (montant maximum autorisé)
+  - PIN généré automatiquement (4 chiffres)
+- **Modification** : Mise à jour des informations du salarié (nom, téléphone, genre, seuil, PIN).
+- **Suppression** : Suppression d'un salarié (mise à jour automatique du compteur de salariés du département).
+- **Réinitialisation du solde** : Remise du solde disponible (`reste`) au seuil maximum (remboursement simulé).
+- **Migration** : Transfert d'un salarié vers un autre département de l'entreprise.
+- **Activation/Désactivation** : Blocage ou déblocage du compte d'un salarié (empêche les demandes d'emprunt).
+- **Historique des emprunts** : Consultation de tous les emprunts effectués par un salarié avec le montant total emprunté.
+
+---
+
+### Espace Salarié - Demandes d'emprunt
+
+#### Identification
+
+- **Vérification par téléphone** : Le salarié saisit son numéro de téléphone pour accéder à son espace emprunt.
+- **Validation** : Vérification que le numéro existe dans la base de données.
+
+#### Processus d'emprunt
+
+1. **Demande** : Saisie du montant souhaité.
+2. **Vérification des limites** :
+   - Le montant ne doit pas dépasser le solde disponible (`reste`).
+   - Le compte ne doit pas être désactivé.
+3. **Confirmation** : Saisie du PIN à 4 chiffres pour valider l'emprunt.
+4. **Sécurité PIN** :
+   - 2 tentatives maximum en cas de PIN incorrect.
+   - Blocage automatique du compte après 2 échecs (nécessite l'intervention du superviseur).
+5. **Succès** : Affichage d'une page de confirmation avec le montant emprunté.
+6. **Mise à jour** : Le solde disponible (`reste`) est automatiquement déduit.
+
+#### Déconnexion
+
+- Le salarié peut se déconnecter de l'espace emprunt pour revenir à la page d'identification.
+
+---
+
+### Sécurité et Middlewares
+
+- **CheckAuth** : Protège les routes de l'espace entreprise. Redirige vers la page d'authentification si l'utilisateur n'est pas connecté.
+- **CheckTel** : Protège les routes d'emprunt. Vérifie que le salarié a validé son numéro de téléphone avant d'accéder aux formulaires d'emprunt.
+
+---
+
+### Modèle de données
+
+| Entité | Champs principaux |
+|--------|-------------------|
+| **Entreprise** | nomEntreprise, email, password |
+| **Département** | nomDepartement, chefDepartement, nbSalarier, entreprise_id |
+| **Employé** | nomComplet, telephone, genre, seuil, reste, pin, counter, departement_id |
+| **Emprunt** | motant, employer_id, created_at |
+
+---
+
+## Structure du projet
+
+```
+gestionEmprunt/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── EntrepriseController.php
+│   │   │   ├── DepartementController.php
+│   │   │   ├── EmployerController.php
+│   │   │   └── EmpruntController.php
+│   │   └── Middleware/
+│   │       ├── CheckAuth.php
+│   │       └── CheckTel.php
+│   └── Models/
+│       ├── Entreprise.php
+│       ├── Departement.php
+│       ├── Employer.php
+│       └── Emprunt.php
+├── resources/views/
+│   ├── welcome.blade.php          # Page d'accueil
+│   ├── authForm.blade.php         # Authentification entreprise
+│   ├── dashboard.blade.php        # Tableau de bord
+│   ├── gestionDepartement.blade.php
+│   ├── gestionEmployer.blade.php
+│   ├── historique.blade.php       # Historique des emprunts
+│   ├── emprunt-login.blade.php    # Identification salarié
+│   ├── loan-request.blade.php     # Formulaire de demande
+│   ├── loan-confirmation.blade.php # Confirmation avec PIN
+│   └── loan-success.blade.php     # Page de succès
+└── routes/
+    └── web.php
+```
+
+---
+
+## Technologies utilisées
+
+- **Framework** : Laravel 12
+- **PHP** : 8.2+
+- **Base de données** : MySQL / PostgreSQL / SQLite
+- **Frontend** : Blade, CSS, JavaScript
+- **Graphiques** : Chart.js
+- **Notifications** : SweetAlert2
+
+---
+
+## Licence
+
+Ce projet est sous licence MIT.
