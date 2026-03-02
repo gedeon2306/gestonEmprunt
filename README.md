@@ -25,7 +25,7 @@ Application web Laravel permettant aux entreprises de gérer les demandes d'empr
 
 ```bash
 # Cloner le projet
-git clone <url-du-repo>
+git clone https://github.com/gedeon2306/gestonEmprunt
 cd gestionEmprunt
 
 # Installer les dépendances
